@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+	"unicode"
+)
+
+func licenseKeyFormatting(s string, k int) string {
+	ans := []byte{}
+	for i, cnt := len(s)-1, 0; i >= 0; i-- {
+		if s[i] != '-' {
+			ans = append(ans, byte(unicode.ToUpper(rune(s[i]))))
+			cnt++
+			if cnt%k == 0 && i != 0 {
+				ans = append(ans, '-')
+			}
+		}
+	}
+	if len(ans) > 0 && ans[len(ans)-1] == '-' {
+		ans = ans[:len(s)-1]
+	}
+	for i, n := len(ans), 0; n < i/2; n++ {
+		ans[n], ans[i-1-n] = ans[i-1-n], ans[n]
+	}
+	return string(ans)
+}
+
+// func main() {
+// 	str := licenseKeyFormatting("5F32eZ--9-w", 4)
+// 	fmt.Println(str)
+// }
